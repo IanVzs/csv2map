@@ -2,7 +2,13 @@ package csv2map
 
 import (
 	"encoding/csv"
+	"errors"
 	"io"
+)
+
+var (
+	// 数据长度错误
+	ErrLength = errors.New("data length error")
 )
 
 type Reader struct {
@@ -39,6 +45,8 @@ func (r *Reader) Read2Map() (map[string]string, error) {
 		for i, v := range r.ColumnNames {
 			record[v] = record_str[i]
 		}
+	} else {
+		return nil, ErrLength
 	}
 	return record, err
 }
